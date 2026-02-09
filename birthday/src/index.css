@@ -1,0 +1,344 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 1s ease-out;
+}
+
+@keyframes bloom {
+  0% {
+    transform: scale(0.2);
+    opacity: 0;
+  }
+  60% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.petal {
+  opacity: 0;
+  transform-origin: 50% 65%;
+  transform-box: fill-box;
+  animation: bloom 700ms cubic-bezier(.22,.9,.4,1) forwards;
+}
+
+.center {
+  transform-origin: center;
+  transform-box: fill-box;
+  animation: bloom 900ms cubic-bezier(.22,.9,.4,1) 320ms both;
+}
+
+.animate-bloom {
+  animation: bloom 700ms cubic-bezier(.22,.9,.4,1) 600ms both;
+}
+
+/* Detailed flower scene styles (purple palette) */
+.flower-scene {
+  width: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  padding: 2rem;
+  box-sizing: border-box;
+}
+.flower-scene .night {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, #0f172a 0%, #1e293b 60%);
+  z-index: 0;
+  opacity: 0.08;
+}
+.flowers {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  gap: 2.5rem;
+  align-items: flex-end;
+  align-self: center;
+  justify-content: center;
+}
+.flower {
+  width: 140px;
+  height: 220px;
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+.flower__leafs {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  transform-origin: 50% 80%;
+  transform: scale(0.08) translateY(20px) rotate(-2deg);
+  opacity: 0;
+  transition: transform 700ms cubic-bezier(.22,.9,.4,1), opacity 300ms ease-in, filter 600ms ease;
+}
+.flower-scene:not(.not-loaded) .flower__leafs {
+  transform: scale(1) translateY(0);
+  opacity: 1;
+  filter: drop-shadow(0 20px 30px rgba(124,58,237,0.12));
+}
+.flower__leaf {
+  position: absolute;
+  width: 28px;
+  height: 70px;
+  background: radial-gradient(120% 80% at 30% 20%, #e9d5ff 0%, #c4b5fd 20%, #a78bfa 45%, #7c3aed 100%);
+  border-radius: 60% 60% 40% 40%;
+  left: 50%;
+  top: 12px;
+  transform-origin: 50% 80%;
+  box-shadow: 0 6px 14px rgba(124,58,237,0.18);
+  transform: scale(0.98);
+  transition: transform 420ms cubic-bezier(.22,.9,.4,1), opacity 360ms ease, box-shadow 360ms ease;
+}
+.flower__leaf--1 { transform: translateX(-34px) rotate(-28deg); }
+.flower__leaf--2 { transform: translateX(0px) rotate(8deg); }
+.flower__leaf--3 { transform: translateX(34px) rotate(28deg); }
+.flower__leaf--4 { transform: translateY(6px) translateX(-6px) rotate(0deg); width:34px; height:46px; border-radius:50%; }
+.flower__white-circle {
+  position: absolute;
+  left: 50%;
+  top: 36px;
+  transform: translateX(-50%);
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 30% 30%, #ffffff, #f3e8ff 40%, #d8b4fe 70%);
+  box-shadow: 0 8px 28px rgba(124,58,237,0.22), 0 2px 6px rgba(0,0,0,0.18) inset;
+}
+.flower__light {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: rgba(196,181,253,0.98);
+  filter: blur(6px);
+  opacity: 0;
+  transform: scale(0.6);
+  animation: lightPop 1s ease forwards;
+}
+.flower__light--1 { left: 12px; top: 12px; animation-delay: .12s }
+.flower__light--2 { left: 26px; top: 6px; animation-delay: .18s }
+.flower__light--3 { right: 26px; top: 6px; animation-delay: .22s }
+.flower__light--4 { right: 12px; top: 12px; animation-delay: .28s }
+.flower__light--5 { left: 8px; top: 36px; animation-delay: .34s }
+.flower__light--6 { right: 8px; top: 36px; animation-delay: .38s }
+.flower__light--7 { left: 20px; top: 50px; animation-delay: .42s }
+.flower__light--8 { right: 20px; top: 50px; animation-delay: .46s }
+
+@keyframes lightPop {
+  0% { opacity: 0; transform: scale(0.2); }
+  50% { opacity: 1; transform: scale(1.1); }
+  100% { opacity: 0.85; transform: scale(1); }
+}
+
+/* soft floating for the entire flower cluster */
+@keyframes floaty {
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+  100% { transform: translateY(0); }
+}
+
+.flowers { animation: floaty 6s ease-in-out infinite; }
+
+/* stagger bloom timing per flower */
+.flower--1 .flower__leafs { transition-delay: .08s }
+.flower--2 .flower__leafs { transition-delay: .26s }
+.flower--3 .flower__leafs { transition-delay: .44s }
+
+.flower--1 .flower__light { animation-delay: .12s }
+.flower--2 .flower__light { animation-delay: .28s }
+.flower--3 .flower__light { animation-delay: .44s }
+
+/* subtle individual petal motion */
+.flower__leaf:hover { transform: scale(1.02) rotate(0deg); box-shadow: 0 18px 36px rgba(124,58,237,0.2) }
+
+/* make stems spring into view */
+.flower__line { transform: scaleY(0); transform-origin: top; transition: transform 700ms cubic-bezier(.22,.9,.4,1) 260ms; }
+.flower-scene:not(.not-loaded) .flower__line { transform: scaleY(1); }
+
+/* stronger glow when loaded */
+.flower-scene:not(.not-loaded) .flower__white-circle { box-shadow: 0 14px 36px rgba(124,58,237,0.28), 0 2px 6px rgba(0,0,0,0.18) inset }
+
+/* Tulip styles */
+.tulip { overflow: visible; display:block }
+.tulip-group { transform-origin: 50% 35%; }
+.tulip-petal { opacity: 0; transform-origin: 50% 70%; transform-box: fill-box; animation: bloom 700ms cubic-bezier(.22,.9,.4,1) forwards; }
+.tulip-stem { transform: scaleY(0); transform-origin: top; transition: transform 700ms cubic-bezier(.22,.9,.4,1) 320ms; }
+.tulip-leaf { opacity: 0; transform: translateY(8px); transition: transform 520ms ease, opacity 520ms ease; }
+
+.tulip-scene:not(.not-loaded) .tulip-petal { opacity: 1 }
+.tulip-scene:not(.not-loaded) .tulip-stem { transform: scaleY(1) }
+.tulip-scene:not(.not-loaded) .tulip-leaf { opacity: 1; transform: translateY(0) }
+
+/* stagger siblings */
+.tulip:nth-of-type(1) .tulip-petal { animation-delay: 0.08s }
+.tulip:nth-of-type(2) .tulip-petal { animation-delay: 0.28s }
+.tulip:nth-of-type(3) .tulip-petal { animation-delay: 0.48s }
+
+/* tiny pop and hover */
+.tulip-petal { transition: transform 320ms ease, filter 300ms ease }
+.tulip:hover .tulip-petal { transform: scale(1.04) }
+
+/* center the cluster nicely */
+.flowers { gap: 2rem; }
+
+/* Surprise block styling */
+.surprise-block { max-width: 720px; }
+.surprise-main { font-weight: 600; letter-spacing: -0.02em; }
+.surprise-sub { max-width: 520px; }
+
+.decor-bar {
+  width: 140px;
+  height: 6px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, rgba(196,181,253,1), rgba(124,58,237,1));
+  box-shadow: 0 10px 30px rgba(124,58,237,0.14);
+  transform: scaleX(0);
+  transform-origin: center;
+  animation: barPop 420ms cubic-bezier(.2,.9,.3,1) 380ms forwards;
+}
+
+.floating-heart { display:inline-block; transform: translateY(0); animation: heartFloat 2200ms ease-in-out infinite; }
+.floating-heart.delay { animation-delay: 120ms }
+
+@keyframes heartFloat {
+  0% { transform: translateY(0) scale(1); opacity: 0.95 }
+  30% { transform: translateY(-8px) scale(1.06); opacity: 1 }
+  60% { transform: translateY(-4px) scale(1.02); opacity: 0.98 }
+  100% { transform: translateY(0) scale(1); opacity: 0.95 }
+}
+
+@keyframes barPop {
+  to { transform: scaleX(1); }
+}
+
+.flower__line {
+  position: absolute;
+  bottom: -12px;
+  width: 6px;
+  height: 120px;
+  background: linear-gradient(180deg, #6d28d9 0%, #4c1d95 100%);
+  border-radius: 6px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 6px 14px rgba(124,58,237,0.14);
+}
+.flower__line__leaf {
+  position: absolute;
+  width: 18px;
+  height: 34px;
+  background: linear-gradient(180deg, rgba(124,58,237,0.98), rgba(99,102,241,0.9));
+  border-radius: 50% 50% 40% 40%;
+  left: 50%;
+  transform-origin: left center;
+}
+.flower__line__leaf--1 { left: -10px; bottom: 86px; transform: rotate(-22deg); }
+.flower__line__leaf--2 { left: 18px; bottom: 72px; transform: rotate(18deg); }
+.flower__line__leaf--3 { left: -12px; bottom: 40px; transform: rotate(-14deg); }
+.flower__line__leaf--4 { left: 18px; bottom: 26px; transform: rotate(12deg); }
+.flower__line__leaf--5 { left: -8px; bottom: 56px; transform: rotate(-6deg); }
+.flower__line__leaf--6 { left: 12px; bottom: 10px; transform: rotate(4deg); }
+
+.grow-ans { --d: 1s }
+.grow-ans .flower__g-long { width: 18px; height: 80px }
+
+.flower__grass { position: relative; width: 140px; height: 28px }
+.flower__grass--top { position:absolute; left:0; right:0; top:0; height:8px; background: linear-gradient(90deg,#7c3aed,#6d28d9); border-radius:8px }
+.flower__grass--bottom { position:absolute; left:0; right:0; bottom:0; height:10px; background: linear-gradient(90deg,#5b21b6,#4c1d95); border-radius:6px }
+
+/* small responsiveness */
+@media (max-width:640px){
+  .flowers { gap: 1rem }
+  .flower { width: 110px; height:180px }
+}
+
+
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: dark;
+  color: rgba(250, 250, 255, 0.95);
+  /* subtle dark purple baseline */
+  background-color: #120428;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 600;
+  color: #e9d5ff;
+  text-decoration: none;
+}
+a:hover {
+  color: #ffffff;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(17,7,33,0.4), rgba(8,3,24,0.6));
+  color: inherit;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+button {
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.04);
+  padding: 0.65em 1.4em;
+  font-size: 1em;
+  font-weight: 600;
+  font-family: inherit;
+  background-color: rgba(124,58,237,0.18);
+  cursor: pointer;
+  transition: transform 160ms ease, background-color 180ms ease, box-shadow 180ms ease;
+  box-shadow: 0 6px 18px rgba(124,58,237,0.12);
+}
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 34px rgba(124,58,237,0.18);
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+  }
+}
