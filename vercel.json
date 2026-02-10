@@ -1,4 +1,5 @@
 {
-  "buildCommand": "npm run build",
-  "outputDirectory": "dist"
+  "installCommand": "cd birthday && npm install",
+  "buildCommand": "cd birthday && npm run build",
+  "outputDirectory": "birthday/dist"
 }
