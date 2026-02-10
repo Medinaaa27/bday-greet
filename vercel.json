@@ -1,5 +1,4 @@
 {
-  "rootDirectory": "birthday",
   "buildCommand": "npm run build",
   "outputDirectory": "dist"
 }
