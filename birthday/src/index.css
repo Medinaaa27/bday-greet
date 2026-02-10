@@ -197,6 +197,13 @@
 .tulip-petal { transition: transform 320ms ease, filter 300ms ease }
 .tulip:hover .tulip-petal { transform: scale(1.04) }
 
+/* Interaction when a tulip is 'open' (clicked/toggled) */
+.tulip { transition: transform 260ms ease, filter 260ms ease }
+.tulip:focus-visible { outline: 3px solid rgba(124,58,237,0.22); outline-offset: 4px; border-radius: 6px }
+.tulip.open .tulip-group { transform: translateY(-6px) scale(1.02); transition: transform 420ms cubic-bezier(.22,.9,.4,1) }
+.tulip.open .tulip-petal { transform: translateY(-8px) scale(1.06); filter: drop-shadow(0 10px 24px rgba(99,102,241,0.18)); transition: transform 360ms ease, filter 360ms ease }
+.tulip.open .tulip-stem { transform: scaleY(1.02) }
+
 /* center the cluster nicely */
 .flowers { gap: 2rem; }
 
@@ -267,8 +274,14 @@
 /* small responsiveness */
 @media (max-width:640px){
   .flowers { gap: 1rem }
-  .flower { width: 110px; height:180px }
+  .flower { width: 100px; height:160px }
 }
+
+/* ensure tulip svgs fit their flower container */
+.flower .tulip { width: 100%; height: 100%; }
+
+/* allow fireworks on mobile when parent has show-fireworks */
+.show-fireworks .fireworks { display: block }
 
 
 :root {
@@ -286,6 +299,67 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
+/* Rich multi-stop background for the app */
+.app-bg {
+  background-color: #0b0620;
+  background-image:
+    radial-gradient(800px 300px at 10% 10%, rgba(139,92,246,0.06), transparent 12%),
+    radial-gradient(600px 220px at 90% 80%, rgba(124,58,237,0.04), transparent 10%),
+    linear-gradient(135deg, rgba(139,92,246,0.08) 0%, rgba(124,58,237,0.10) 22%, rgba(92,64,130,0.12) 42%, rgba(61,37,98,0.22) 68%, rgba(10,8,24,0.78) 100%);
+  background-blend-mode: overlay, overlay, normal;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+
+
+/* Fireworks background */
+.fireworks {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+.firework-burst {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 6px;
+  height: 6px;
+  transform: translate(-50%, -50%);
+}
+
+.fw-spark {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  opacity: 1;
+  transform: translate(0, 0) scale(1);
+  filter: blur(0.6px);
+  box-shadow: 0 0 12px rgba(124,58,237,0.95);
+  animation: fw-spark 1200ms cubic-bezier(.22,.9,.4,1) forwards;
+}
+
+
+@keyframes fw-spark {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(calc(var(--tx) * 0.7), calc(var(--ty) * 0.7)) scale(0.75);
+  }
+  100% {
+    transform: translate(var(--tx), var(--ty)) scale(0.28);
+    opacity: 0;
+    filter: blur(6px);
+  }
+}
+
 
 a {
   font-weight: 600;

@@ -1,20 +1,23 @@
 import { useState } from "react"
 import Flower from './Flower'
+import Fireworks from './Fireworks'
 
 export default function App() {
   const [showSurprise, setShowSurprise] = useState(false)
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-purple-700 via-purple-800 to-purple-950 px-4">
-      <div className="bg-white/5 backdrop-blur-sm rounded-3xl shadow-2xl p-10 w-full max-w-4xl text-center text-white animate-fadeIn flex flex-col items-center gap-6">
+    <div className={`min-h-screen flex items-center justify-center px-4 app-bg ${showSurprise ? 'show-fireworks' : ''}`}>
+      <Fireworks />
+      <div className="bg-white/5 backdrop-blur-sm rounded-3xl shadow-2xl p-6 sm:p-10 w-full max-w-4xl text-center text-white animate-fadeIn flex flex-col items-center gap-6 relative z-20">
 
-        <h1 className="text-4xl font-extrabold mb-2 tracking-tight w-full flex justify-center items-center gap-3">
+        <h1 className="text-3xl sm:text-4xl font-extrabold mb-2 tracking-tight w-full flex justify-center items-center gap-3">
           Happy Birthday, My Love ❤️
         </h1>
-        <p className="text-lg leading-relaxed mb-6 max-w-2xl text-purple-100/90">
+        <p className="text-lg leading-relaxed mb-6 max-w-2xl text-purple-100/90 max-h-36 overflow-hidden box-border">
           You make me feel loved, happy, and better in every way.
           I’m so thankful for you and all the memories we’ve made. I'll be happy to support
-          you and be with you. Make you laugh and make you happy, and more pictures and photobooths with you. 🎂✨
+          you and be with you. Make you laugh and make you happy, and more pictures and photobooths with you.
+          Praying that one day we can be together until the end.🎂✨
         </p>
 
         {!showSurprise ? (
